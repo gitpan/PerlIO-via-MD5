@@ -3,7 +3,7 @@ package PerlIO::via::MD5;
 # Set the version info
 # Make sure we do things by the book from now on
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 use strict;
 
 # Make sure the encoding/decoding stuff is available
@@ -100,6 +100,8 @@ sub FILL {
     }
 } #FILL
 
+#-----------------------------------------------------------------------
+
 __END__
 
 =head1 NAME
@@ -140,6 +142,10 @@ that file.
 If it were possible to pass parameters such as this to the layer while opening
 the file, that would have been the approach taken.  Since that is not possible
 yet, this way of doing it seems to be the next best thing.
+
+=head1 REQUIRED MODULES
+
+ Digest::MD5 (any)
 
 =head1 SEE ALSO
 
