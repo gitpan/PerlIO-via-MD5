@@ -1,3 +1,18 @@
+0.04	11 July 2002
+        Upgraded test-suite to make it ready for Perl core inclusion (if that
+        ever happens).  Added check for PerlIO and EBCDIC also, by courtesy of
+	Jarkko Hietaniemi.
+
+	Updated MANIFEST: test.md5 was missing, so I was the only one in the
+	world where the tests worked.
+
+	Rearranged top of source to not need fully qualified VERSION anymore.
+
+        Checked for defined() problems: none found.
+
+0.03	10 July 2002
+	Moved to the PerlIO::via namespace.
+
 0.02	9 July 2002
 	Fixed some documentation problems reported by Rafael Garcia-Suarez.
 

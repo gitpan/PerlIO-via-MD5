@@ -1,10 +1,10 @@
 package PerlIO::via::MD5;
 
-# Make sure we do things by the book
 # Set the version info
+# Make sure we do things by the book from now on
 
+$VERSION = '0.04';
 use strict;
-$PerlIO::via::MD5::VERSION = '0.03';
 
 # Make sure the encoding/decoding stuff is available
 
