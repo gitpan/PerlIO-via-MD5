@@ -4,7 +4,7 @@ package PerlIO::Via::MD5;
 # Set the version info
 
 use strict;
-$PerlIO::Via::MD5::VERSION = 0.01;
+$PerlIO::Via::MD5::VERSION = '0.02';
 
 # Make sure the encoding/decoding stuff is available
 
@@ -15,6 +15,10 @@ use Digest::MD5 (); # no need to pollute this namespace
 
 my %allowed = (digest => 1, hexdigest => 1, b64digest => 1);
 my $method = 'hexdigest';
+
+# Satisfy -require-
+
+1;
 
 #-----------------------------------------------------------------------
 
@@ -80,7 +84,7 @@ sub FILL {
 
 # Elsif we still have an MD5 object (and end of data reached)
 #  Obtain the MD5 object and method name
-#  Remove MD5 object from PerlIO::Via::MD5 object (so we'll really exit next time )
+#  Remove MD5 object from PerlIO::Via::MD5 object (so we'll really exit next)
 #  Return the result of the digest
 
     } elsif ($_[0]->[0]) {
@@ -96,10 +100,6 @@ sub FILL {
     }
 } #FILL
 
-# Satisfy -require-
-
-1;
-
 __END__
 
 =head1 NAME
@@ -110,11 +110,11 @@ PerlIO::Via::MD5 - PerlIO layer for creating an MD5 digest of a file
 
  use PerlIO::Via::MD5;
 
- PerlIO::Via::MD5->method( 'hexdigest' ); # default, return as 32 hex digits
- PerlIO::Via::MD5->method( 'digest' );    # return as 16-byte binary value
- PerlIO::Via::MD5->method( 'b64digest' ); # return as 22-byte base64 (MIME) value
+ PerlIO::Via::MD5->method( 'hexdigest' ); # default, return 32 hex digits
+ PerlIO::Via::MD5->method( 'digest' );    # return 16-byte binary value
+ PerlIO::Via::MD5->method( 'b64digest' ); # return 22-byte base64 (MIME) value
 
- open( my $in,'<Via(PerlIO::Via::MD5)','file' )
+ open( my $in,'<:Via(MD5)','file' )
   or die "Can't open file for digesting: $!\n";
  my $digest = <$in>;
 
