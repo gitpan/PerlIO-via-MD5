@@ -10,11 +10,11 @@ warn <<EOD unless $Config{useperlio};
 EOD
 
 WriteMakefile (
- NAME		=> "PerlIO::Via::MD5",
+ NAME		=> "PerlIO::via::MD5",
  ($[ >= 5.005) ?
  (AUTHOR	=> 'Elizabeth Mattijsen (liz@dijkmat.nl)',
   ABSTRACT	=> 'PerlIO Layer for MD5 Digests') : (),
- VERSION_FROM	=> 'lib/PerlIO/Via/MD5.pm',
+ VERSION_FROM	=> 'lib/PerlIO/via/MD5.pm',
  PREREQ_PM	=> {
                     'Digest::MD5' => 0,
                    },

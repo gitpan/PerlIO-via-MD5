@@ -4,5 +4,5 @@ README
 TODO
 VERSION
 Makefile.PL
-lib/PerlIO/Via/MD5.pm
+lib/PerlIO/via/MD5.pm
 t/01basic.t

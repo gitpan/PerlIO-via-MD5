@@ -1,10 +1,10 @@
-package PerlIO::Via::MD5;
+package PerlIO::via::MD5;
 
 # Make sure we do things by the book
 # Set the version info
 
 use strict;
-$PerlIO::Via::MD5::VERSION = '0.02';
+$PerlIO::via::MD5::VERSION = '0.03';
 
 # Make sure the encoding/decoding stuff is available
 
@@ -84,7 +84,7 @@ sub FILL {
 
 # Elsif we still have an MD5 object (and end of data reached)
 #  Obtain the MD5 object and method name
-#  Remove MD5 object from PerlIO::Via::MD5 object (so we'll really exit next)
+#  Remove MD5 object from PerlIO::via::MD5 object (so we'll really exit next)
 #  Return the result of the digest
 
     } elsif ($_[0]->[0]) {
@@ -104,17 +104,17 @@ __END__
 
 =head1 NAME
 
-PerlIO::Via::MD5 - PerlIO layer for creating an MD5 digest of a file
+PerlIO::via::MD5 - PerlIO layer for creating an MD5 digest of a file
 
 =head1 SYNOPSIS
 
- use PerlIO::Via::MD5;
+ use PerlIO::via::MD5;
 
- PerlIO::Via::MD5->method( 'hexdigest' ); # default, return 32 hex digits
- PerlIO::Via::MD5->method( 'digest' );    # return 16-byte binary value
- PerlIO::Via::MD5->method( 'b64digest' ); # return 22-byte base64 (MIME) value
+ PerlIO::via::MD5->method( 'hexdigest' ); # default, return 32 hex digits
+ PerlIO::via::MD5->method( 'digest' );    # return 16-byte binary value
+ PerlIO::via::MD5->method( 'b64digest' ); # return 22-byte base64 (MIME) value
 
- open( my $in,'<:Via(MD5)','file' )
+ open( my $in,'<:via(MD5)','file' )
   or die "Can't open file for digesting: $!\n";
  my $digest = <$in>;
 
@@ -129,8 +129,8 @@ There is one class method.
 
 =head2 method
 
- $method = PerlIO::Via::MD5->method;  # obtain current setting
- PerlIO::Via::MD5->method( $method ); # set new digest method
+ $method = PerlIO::via::MD5->method;  # obtain current setting
+ PerlIO::via::MD5->method( $method ); # set new digest method
 
 Calling this class method with a new value will cause all subsequently opened
 files to assume that new setting.  The method however is remembered within
@@ -143,8 +143,8 @@ yet, this way of doing it seems to be the next best thing.
 
 =head1 SEE ALSO
 
-L<PerlIO::Via>, L<Digest::MD5>, L<PerlIO::Via::StripHTML>,
-L<PerlIO::Via::QuotedPrint>, L<PerlIO::Via::Base64>.
+L<PerlIO::via>, L<Digest::MD5>, L<PerlIO::via::StripHTML>,
+L<PerlIO::via::QuotedPrint>, L<PerlIO::via::Base64>, L<PerlIO::via::Rotate>.
 
 =head1 COPYRIGHT
 
