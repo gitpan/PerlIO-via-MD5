@@ -12,6 +12,8 @@ BEGIN {				# Magic Perl CORE pragma
     }
 }
 
+use strict;
+use warnings;
 use Test::More tests => 13;
 
 my $file = $ENV{PERL_CORE} ? 'test.md5' : 't/test.md5';
@@ -28,13 +30,13 @@ is(
 ok( close( $in ),			'close handle (hex)' );
 
 is( PerlIO::via::MD5->method('b64digest'),'b64digest','check setting method' );
-ok( open( my $in,'<:via(MD5)', $file ),"opening '$file' (base64)");
+ok( open( $in,'<:via(MD5)', $file ),"opening '$file' (base64)");
 is( PerlIO::via::MD5->method('digest'),'digest','check setting method' );
 
 is( <$in>,'00EDFL6ro6rSmcNEj2560Q',	'check digest in list context' );
 ok( close( $in ),			'close handle (base64)' );
 
-ok( open( my $in,'<:via(MD5)', $file ),"opening '$file' (binary)");
+ok( open( $in,'<:via(MD5)', $file ),"opening '$file' (binary)");
 #open( my $out,">out" ); print {$out} <$in>; close( $out );
 is( <$in>,'ÓA¾«£ªÒ™ÃDnzÑ',	'check digest in list context' );
 ok( close( $in ),			'close handle (binary)' );

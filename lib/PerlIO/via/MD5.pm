@@ -3,7 +3,7 @@ package PerlIO::via::MD5;
 # Set the version info
 # Make sure we do things by the book from now on
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 use strict;
 
 # Make sure the encoding/decoding stuff is available
@@ -148,9 +148,8 @@ L<PerlIO::via::QuotedPrint>, L<PerlIO::via::Base64>, L<PerlIO::via::Rotate>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002 Elizabeth Mattijsen.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+Copyright (c) 2002-2003 Elizabeth Mattijsen.  All rights reserved.  This
+library is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =cut
