@@ -1,56 +1,46 @@
 package PerlIO::via::MD5;
 
-# Set the version info
-# Make sure we do things by the book from now on
+$VERSION= '0.07';
 
-$VERSION = '0.06';
+# be as strict as possible
 use strict;
 
-# Make sure the encoding/decoding stuff is available
-
+# modules that we need
 use Digest::MD5 (); # no need to pollute this namespace
 
-# Initialize the hash with allowable methods
-# Set the default method to be used
+# initializations
+my %allowed= ( digest => 1, hexdigest => 1, b64digest => 1 );
+my $method=  'hexdigest';
 
-my %allowed = (digest => 1, hexdigest => 1, b64digest => 1);
-my $method = 'hexdigest';
-
-# Satisfy -require-
-
+# satisfy -require-
 1;
 
-#-----------------------------------------------------------------------
-
+#-------------------------------------------------------------------------------
+#
 # Methods for settings that will be used by the objects
-
-#-----------------------------------------------------------------------
-
+#
+#-------------------------------------------------------------------------------
 #  IN: 1 class (ignored)
-#      2 new setting for method (
+#      2 new setting for method
 # OUT: 1 current setting for eol
 
 sub method {
-
-# Lose the class
-# If we have a new value
-#  Die now if invalid method name
-#  Set the new value
-# Return whatever we have now
-
     shift;
+
+    # set new value if given
     if (@_) {
         die "Invalid digest method '$_[0]'" unless $allowed{$_[0]};
-        $method = shift;
+        $method= shift;
     }
-    $method;
+
+    return $method;
 } #method
 
-#-----------------------------------------------------------------------
-
-# Methods for the actual layer implementation
-
-#-----------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#
+# Standard Perl features
+#
+#-------------------------------------------------------------------------------
 #  IN: 1 class
 #      2 mode string (ignored)
 #      3 file handle of PerlIO layer below (ignored)
@@ -58,49 +48,42 @@ sub method {
 
 sub PUSHED { 
 
-# Return now if we're not reading
-# Create Digest::MD5 object and bless it as ourself
-
+  # not reading
   return -1 if $_[1] ne 'r';
-  bless [Digest::MD5->new,$method],$_[0];
+
+  return bless [ Digest::MD5->new, $method ], $_[0];
 } #PUSHED
 
-#-----------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 #  IN: 1 instantiated object
 #      2 handle to read from
 # OUT: 1 empty string (when still busy) or the digest string (when done)
 
 sub FILL {
 
-# Read the line from the handle
-# If there is something to be added
-#  Add it
-#  Indicate nothing really to be returned yet
+    # still reading file
+    my $line= readline( $_[1] );
+    if ( defined($line) ) {
+        $_[0]->[0]->add($line);
 
-    my $line = readline( $_[1] );
-    if (defined($line)) {
-        $_[0]->[0]->add( $line );
+        # nothing to be returned yet
 	return '';
-
-# Elsif we still have an MD5 object (and end of data reached)
-#  Obtain the MD5 object and method name
-#  Remove MD5 object from PerlIO::via::MD5 object (so we'll really exit next)
-#  Return the result of the digest
-
-    } elsif ($_[0]->[0]) {
-        my ($object,$method) = @{$_[0]};
-        $_[0]->[0] = '';
-        return $object->$method;
-
-# Else (end of data really reached)
-#  Return signalling end of data reached
-
-    } else {
-        return undef;
     }
+
+    # end of data reached, we have MD5 object still
+    elsif ( $_[0]->[0] ) {
+        my ( $object, $method )= @{ $_[0] };
+        $_[0]->[0]= '';
+
+        # return result of digest
+        return $object->$method;
+    }
+
+    # huh?, end of data without MD5 object, empty file?
+    return undef;
 } #FILL
 
-#-----------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 __END__
 
@@ -119,6 +102,10 @@ PerlIO::via::MD5 - PerlIO layer for creating an MD5 digest of a file
  open( my $in,'<:via(MD5)','file' )
   or die "Can't open file for digesting: $!\n";
  my $digest = <$in>;
+
+=head1 VERSION
+
+This documentation describes version 0.07.
 
 =head1 DESCRIPTION
 
@@ -154,8 +141,8 @@ L<PerlIO::via::QuotedPrint>, L<PerlIO::via::Base64>, L<PerlIO::via::Rotate>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Elizabeth Mattijsen.  All rights reserved.  This
-library is free software; you can redistribute it and/or modify it under
+Copyright (c) 2002, 2003, 2012 Elizabeth Mattijsen.  All rights reserved.
+This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
